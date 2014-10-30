@@ -4,28 +4,26 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
-
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 
 public class Canvas extends JComponent implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
-	ArrayList<Point2f> normalizedVertices;
+	private ArrayList<Point2f> normalizedVertices;
 
-	Point2f clikedPoint;
-	Point2f clikedPoint2;
+	private Point2f clikedPoint;
+	private Point2f clikedPoint2;
 
 	private final int RADIUS = 5;
 
-	double length;
+	private int x2, y2, y1, x1;
 
-	int x2, y2, y1, x1;
-
-	float longitudeRange, latitudeRange, maxLong, minLong, maxLat, minLat;
+	private float longitudeRange, latitudeRange, maxLong, minLong, maxLat, minLat;
+	
+    public static final double R = 6372.8; // In kilometers
 
 	public Canvas() {
 		normalizedVertices = new ArrayList<Point2f>();
@@ -62,16 +60,14 @@ public class Canvas extends JComponent implements MouseListener {
 		}
 
 		if (this.clikedPoint2 != null) {
-			//LineSeg line = new LineSeg(this.clikedPoint, this.clikedPoint2);
-
 			x2 = (int) this.clikedPoint2.getX();
 			y2 = (int) this.clikedPoint2.getY();
 
 			g2.fillArc(x2 - RADIUS, y2 - RADIUS, RADIUS * 2, RADIUS * 2, 0, 360);
 			g2.drawLine(x1, y1, x2, y2);
-
-			
 			g2.drawString(this.getLongLat(x2, y2), x2 - 20, y2 - 20);
+			Main.distanceLabel.setText(this.haversineFormula(clikedPoint, clikedPoint2));;
+			
 		}
 
 		if (this.clikedPoint != null && this.clikedPoint2 != null) {
@@ -80,6 +76,7 @@ public class Canvas extends JComponent implements MouseListener {
 		}
 
 	}
+
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -92,8 +89,6 @@ public class Canvas extends JComponent implements MouseListener {
 	}
 
 	private String getLongLat(float normX, float normY) {
-		// longitude = LONGITUDE_RANGE * ( normX / getWidth() ) + minLong
-		// latitude = latitudeRange * ( normY / getHeight() ) + minLat
 		float originalX = getLongitudeRange() * (normX / getWidth())
 				+ getMinLong();
 		float originalY = getLatitudeRange() * (normY / getHeight())
@@ -107,28 +102,40 @@ public class Canvas extends JComponent implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		System.out.println("TA PRECIONANDO");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		System.out.println("TA RELEASED");
 
 	}
 
+	public String haversineFormula(Point2f p1, Point2f p2) {
+		DecimalFormat df = new DecimalFormat(".####");
+		double dLat = Math.toRadians(p2.getX() - p1.getX());
+		double dLon = Math.toRadians(p2.getY() - p2.getY());
+		double lat1 = Math.toRadians(p1.getX());
+		double lat2 = Math.toRadians(p2.getY());
+
+		double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2)
+				* Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+		double c = 2 * Math.asin(Math.sqrt(a));
+		return "Distance is " + df.format((R * c)) + "Km";
+	}
+
+	
+	
 	public float getLongitudeRange() {
 		return longitudeRange;
 	}
@@ -176,5 +183,13 @@ public class Canvas extends JComponent implements MouseListener {
 	public void setMinLat(float minLat) {
 		this.minLat = minLat;
 	}
+	
+	public ArrayList<Point2f> getNormalizedVertices() {
+		return normalizedVertices;
+	}
 
+	public void setNormalizedVertices(ArrayList<Point2f> normalizedVertices) {
+		this.normalizedVertices = normalizedVertices;
+	}
+	
 }
