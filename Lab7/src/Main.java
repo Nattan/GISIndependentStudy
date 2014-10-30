@@ -23,6 +23,7 @@ import javax.swing.JTextPane;
  * @author ac332317
  *
  */
+
 public class Main {
 
 	private JFrame frmIndependentStudy;
