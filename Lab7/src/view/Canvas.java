@@ -1,4 +1,5 @@
 package view;
+
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,9 +25,10 @@ public class Canvas extends JComponent implements MouseListener {
 
 	private int x2, y2, y1, x1;
 
-	private float longitudeRange, latitudeRange, maxLong, minLong, maxLat, minLat;
-	
-    public static final double R = 6372.8; // In kilometers
+	private float longitudeRange, latitudeRange, maxLong, minLong, maxLat,
+			minLat;
+
+	public static final double R = 6372.8; // In kilometers
 
 	public Canvas() {
 		normalizedVertices = new ArrayList<Point2f>();
@@ -69,8 +71,10 @@ public class Canvas extends JComponent implements MouseListener {
 			g2.fillArc(x2 - RADIUS, y2 - RADIUS, RADIUS * 2, RADIUS * 2, 0, 360);
 			g2.drawLine(x1, y1, x2, y2);
 			g2.drawString(this.getLongLat(x2, y2), x2 - 20, y2 - 20);
-			Main.distanceLabel.setText(this.haversineFormula(clikedPoint, clikedPoint2));;
-			
+			MainRender.distanceLabel.setText(this.haversineFormula(clikedPoint,
+					clikedPoint2));
+			;
+
 		}
 
 		if (this.clikedPoint != null && this.clikedPoint2 != null) {
@@ -79,7 +83,6 @@ public class Canvas extends JComponent implements MouseListener {
 		}
 
 	}
-
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -110,7 +113,7 @@ public class Canvas extends JComponent implements MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		
+
 	}
 
 	@Override
@@ -137,8 +140,6 @@ public class Canvas extends JComponent implements MouseListener {
 		return "Distance is " + df.format((R * c)) + "Km";
 	}
 
-	
-	
 	public float getLongitudeRange() {
 		return longitudeRange;
 	}
@@ -186,7 +187,7 @@ public class Canvas extends JComponent implements MouseListener {
 	public void setMinLat(float minLat) {
 		this.minLat = minLat;
 	}
-	
+
 	public ArrayList<Point2f> getNormalizedVertices() {
 		return normalizedVertices;
 	}
@@ -194,5 +195,5 @@ public class Canvas extends JComponent implements MouseListener {
 	public void setNormalizedVertices(ArrayList<Point2f> normalizedVertices) {
 		this.normalizedVertices = normalizedVertices;
 	}
-	
+
 }

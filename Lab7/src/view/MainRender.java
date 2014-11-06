@@ -1,4 +1,5 @@
 package view;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -23,27 +24,27 @@ import model.Point2f;
 
 /**
  * Main class
+ * 
  * @author ac332317
- *
+ * 
  */
 
-public class Main {
+public class MainRender {
 
 	private JFrame frmIndependentStudy;
 	private JTextField textField;
-	
+
 	private JTextField urlTF;
 
-	private ArrayList<Point2f>  worldVertices = new ArrayList<Point2f>();
+	private ArrayList<Point2f> worldVertices = new ArrayList<Point2f>();
 
 	private String urlStr;
 
 	private float minLong, maxLong, maxLat, minLat;
-	
+
 	private Canvas theCanvas = new Canvas();
-	
+
 	public static JLabel distanceLabel = new JLabel("");
-	
 
 	/**
 	 * Launch the application.
@@ -52,7 +53,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main window = new Main();
+					MainRender window = new MainRender();
 					window.frmIndependentStudy.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +65,7 @@ public class Main {
 	/**
 	 * Create the application.
 	 */
-	public Main() {
+	public MainRender() {
 		initialize();
 	}
 
@@ -77,18 +78,18 @@ public class Main {
 		frmIndependentStudy.setBounds(100, 100, 1175, 737);
 		frmIndependentStudy.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmIndependentStudy.getContentPane().setLayout(null);
-		
+
 		textField = new JTextField();
 		textField.setBounds(294, 27, 500, 20);
 		frmIndependentStudy.getContentPane().add(textField);
 		textField.setColumns(10);
-		
+
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try{
-					urlStr = "http://www.albany.edu/faculty/" + "jmower/geog/gog692/"
-							+ "IllinoisVertices.csv";
+				try {
+					urlStr = "http://www.albany.edu/faculty/"
+							+ "jmower/geog/gog692/" + "IllinoisVertices.csv";
 					System.out.println("test");
 					URL url = new URL(urlStr);
 					downloadVertices(url);
@@ -96,52 +97,49 @@ public class Main {
 					normalizedVertices();
 					theCanvas.setVisible(true);
 					theCanvas.repaint();
-				}
-				catch(Exception e){
+				} catch (Exception e) {
 					System.out.print(e.getMessage());
 				}
 			}
 		});
 		btnNewButton.setBounds(496, 59, 89, 23);
 		frmIndependentStudy.getContentPane().add(btnNewButton);
-		
-	
+
 		theCanvas.setBounds(47, 148, 507, 529);
 		frmIndependentStudy.getContentPane().add(theCanvas);
 		theCanvas.setVisible(false);
-		
+
 		JLabel lblNewLabel = new JLabel("URL:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setBounds(242, 27, 42, 20);
 		frmIndependentStudy.getContentPane().add(lblNewLabel);
-		
+
 		distanceLabel.setBounds(272, 123, 215, 14);
 		frmIndependentStudy.getContentPane().add(distanceLabel);
-		
-		
+
 		JTextPane txtpnDsfsdf = new JTextPane();
-		txtpnDsfsdf.setText("The haversine formula is an important equantion in navigation, giving great-circle distances between two points on a sphere from their longitudes and latitudes. We have changed the formula so that the user can see"
-				+ "the final result in Kilometers.");
+		txtpnDsfsdf
+				.setText("The haversine formula is an important equantion in navigation, giving great-circle distances between two "
+						+ "points on a sphere from their longitudes and latitudes. We have changed the formula so that the user can see"
+						+ "the final result in Kilometers.");
 		txtpnDsfsdf.setBounds(578, 182, 571, 57);
 		frmIndependentStudy.getContentPane().add(txtpnDsfsdf);
-		try{
-		JLabel imgLabel = new JLabel("New label");
-		imgLabel.setBounds(578, 266, 571, 119);
-		frmIndependentStudy.getContentPane().add(imgLabel);
-		
-		Image img = ImageIO.read(new File("C:/Users/ac332317/git/Repository/Lab7/haversine.png"));
-		Image resizedImage = 
-			    img.getScaledInstance(imgLabel.getWidth(), imgLabel.getHeight(), Image.SCALE_FAST);
-		
-		imgLabel.setIcon(new ImageIcon(resizedImage));
-		
-		
-		
-		}catch(Exception e){
-			
+		try {
+			JLabel imgLabel = new JLabel("New label");
+			imgLabel.setBounds(578, 266, 571, 119);
+			frmIndependentStudy.getContentPane().add(imgLabel);
+
+			Image img = ImageIO.read(new File("images/haversin.png"));
+			Image resizedImage = img.getScaledInstance(imgLabel.getWidth(),
+					imgLabel.getHeight(), Image.SCALE_FAST);
+
+			imgLabel.setIcon(new ImageIcon(resizedImage));
+
+		} catch (Exception e) {
+
 		}
 	}
-	
+
 	public void downloadVertices(URL url) {
 		try {
 			URLConnection uc = url.openConnection();
@@ -159,7 +157,7 @@ public class Main {
 			}
 
 		} catch (Exception e) {
-			
+
 		}
 	}
 
@@ -194,7 +192,8 @@ public class Main {
 		for (Point2f p : this.worldVertices) {
 			float normX = (this.minLong - p.getX()) / longitudeRange;
 			float normY = (this.minLat - p.getY()) / latitudeRange;
-			this.theCanvas.getNormalizedVertices().add(new Point2f(normX, normY));
+			this.theCanvas.getNormalizedVertices().add(
+					new Point2f(normX, normY));
 			System.out.println("Long: " + normX + "\tLat: " + normY);
 		}
 		this.theCanvas.setLatitudeRange(latitudeRange);
