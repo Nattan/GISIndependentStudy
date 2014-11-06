@@ -129,7 +129,7 @@ public class MainRender {
 			imgLabel.setBounds(578, 266, 571, 119);
 			frmIndependentStudy.getContentPane().add(imgLabel);
 
-			Image img = ImageIO.read(new File("images/haversin.png"));
+			Image img = ImageIO.read(new File("./src/view/images/haversin.png"));
 			Image resizedImage = img.getScaledInstance(imgLabel.getWidth(),
 					imgLabel.getHeight(), Image.SCALE_FAST);
 
