@@ -1,4 +1,4 @@
-package app.view;
+package view;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import app.model.Point2f;
+import model.Point2f;
 
 public class Canvas extends JComponent implements MouseListener {
 

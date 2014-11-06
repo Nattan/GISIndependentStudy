@@ -1,4 +1,4 @@
-package app.view;
+package view;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import app.model.Point2f;
+import model.Point2f;
 
 /**
  * Main class

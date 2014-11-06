@@ -1,4 +1,4 @@
-package app.model;
+package model;
 /**
  * This class represents a Point with two coordinates
  * @author ac332317

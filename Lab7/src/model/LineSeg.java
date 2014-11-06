@@ -1,4 +1,4 @@
-package app.model;
+package model;
 /**
  * This class represents a line segment. Also, it has two points inside of
  * @author ac332317
