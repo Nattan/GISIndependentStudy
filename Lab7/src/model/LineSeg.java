@@ -1,7 +1,7 @@
 package model;
 
 /**
- * This class represents a line segment. Also, it has two points inside of
+ * This class represents a line segment. Also, it has two points inside of it
  * 
  * @author ac332317
  * 
@@ -13,7 +13,7 @@ public class LineSeg {
 	private float length;
 
 	/**
-	 * This the class constructor
+	 * This is the class constructor
 	 * 
 	 * @param P1
 	 *            First Point

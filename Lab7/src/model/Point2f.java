@@ -1,7 +1,7 @@
 package model;
 
 /**
- * This class represents a Point with two coordinates
+ * This class represents a Point made up two coordinates
  * 
  * @author ac332317
  * 

@@ -28,7 +28,7 @@ public class Canvas extends JComponent implements MouseListener {
 	private float longitudeRange, latitudeRange, maxLong, minLong, maxLat,
 			minLat;
 
-	public static final double R = 6372.8; // In kilometers
+	private final double R = 6372.8; // In kilometers
 
 	public Canvas() {
 		normalizedVertices = new ArrayList<Point2f>();
@@ -36,6 +36,7 @@ public class Canvas extends JComponent implements MouseListener {
 		setLayout(new FlowLayout());
 	}
 
+	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
@@ -71,10 +72,8 @@ public class Canvas extends JComponent implements MouseListener {
 			g2.fillArc(x2 - RADIUS, y2 - RADIUS, RADIUS * 2, RADIUS * 2, 0, 360);
 			g2.drawLine(x1, y1, x2, y2);
 			g2.drawString(this.getLongLat(x2, y2), x2 - 20, y2 - 20);
-			MainRender.distanceLabel.setText(this.haversineFormula(clikedPoint,
-					clikedPoint2));
-			;
-
+			MainRender.getDistanceLabel().setText(
+					this.haversineFormula(clikedPoint, clikedPoint2));
 		}
 
 		if (this.clikedPoint != null && this.clikedPoint2 != null) {
@@ -118,17 +117,19 @@ public class Canvas extends JComponent implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		System.out.println("TA PRECIONANDO");
+		System.out.println("Mouse pressed...");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		System.out.println("TA RELEASED");
+		System.out.println("Mouse released...");
 
 	}
 
 	public String haversineFormula(Point2f p1, Point2f p2) {
-		DecimalFormat df = new DecimalFormat(".####");
+
+		DecimalFormat df = new DecimalFormat(".##");
+
 		double dLat = Math.toRadians(p2.getX() - p1.getX());
 		double dLon = Math.toRadians(p2.getY() - p2.getY());
 		double lat1 = Math.toRadians(p1.getX());
@@ -137,7 +138,16 @@ public class Canvas extends JComponent implements MouseListener {
 		double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2)
 				* Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
 		double c = 2 * Math.asin(Math.sqrt(a));
-		return "Distance is " + df.format((R * c)) + "Km";
+
+		return "Distance is " + df.format((R * c)) + " Km";
+	}
+
+	public int getRADIUS() {
+		return RADIUS;
+	}
+
+	public double getR() {
+		return R;
 	}
 
 	public float getLongitudeRange() {

@@ -32,9 +32,10 @@ import model.Point2f;
 public class MainRender {
 
 	private JFrame frmIndependentStudy;
-	private JTextField textField;
-
-	private JTextField urlTF;
+	private JTextField urlTextField;
+	private JButton OkBtn;
+	private JTextPane formulaDescriptionTextPane;
+	private JLabel urlLabel;
 
 	private ArrayList<Point2f> worldVertices = new ArrayList<Point2f>();
 
@@ -44,17 +45,19 @@ public class MainRender {
 
 	private Canvas theCanvas = new Canvas();
 
-	public static JLabel distanceLabel = new JLabel("");
+	private static JLabel distanceLabel = new JLabel("");
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					MainRender window = new MainRender();
 					window.frmIndependentStudy.setVisible(true);
+					window.frmIndependentStudy.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -79,18 +82,18 @@ public class MainRender {
 		frmIndependentStudy.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmIndependentStudy.getContentPane().setLayout(null);
 
-		textField = new JTextField();
-		textField.setBounds(294, 27, 500, 20);
-		frmIndependentStudy.getContentPane().add(textField);
-		textField.setColumns(10);
+		urlTextField = new JTextField();
+		urlTextField.setBounds(294, 27, 500, 20);
+		frmIndependentStudy.getContentPane().add(urlTextField);
+		urlTextField.setColumns(10);
 
-		JButton btnNewButton = new JButton("OK");
-		btnNewButton.addActionListener(new ActionListener() {
+		OkBtn = new JButton("OK");
+		OkBtn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					urlStr = "http://www.albany.edu/faculty/"
 							+ "jmower/geog/gog692/" + "IllinoisVertices.csv";
-					System.out.println("test");
 					URL url = new URL(urlStr);
 					downloadVertices(url);
 					findMBR();
@@ -102,34 +105,35 @@ public class MainRender {
 				}
 			}
 		});
-		btnNewButton.setBounds(496, 59, 89, 23);
-		frmIndependentStudy.getContentPane().add(btnNewButton);
+		OkBtn.setBounds(496, 59, 89, 23);
+		frmIndependentStudy.getContentPane().add(OkBtn);
 
 		theCanvas.setBounds(47, 148, 507, 529);
 		frmIndependentStudy.getContentPane().add(theCanvas);
 		theCanvas.setVisible(false);
 
-		JLabel lblNewLabel = new JLabel("URL:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(242, 27, 42, 20);
-		frmIndependentStudy.getContentPane().add(lblNewLabel);
+		urlLabel = new JLabel("URL:");
+		urlLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		urlLabel.setBounds(242, 27, 42, 20);
+		frmIndependentStudy.getContentPane().add(urlLabel);
 
 		distanceLabel.setBounds(272, 123, 215, 14);
 		frmIndependentStudy.getContentPane().add(distanceLabel);
 
-		JTextPane txtpnDsfsdf = new JTextPane();
-		txtpnDsfsdf
+		formulaDescriptionTextPane = new JTextPane();
+		formulaDescriptionTextPane
 				.setText("The haversine formula is an important equantion in navigation, giving great-circle distances between two "
 						+ "points on a sphere from their longitudes and latitudes. We have changed the formula so that the user can see"
 						+ "the final result in Kilometers.");
-		txtpnDsfsdf.setBounds(578, 182, 571, 57);
-		frmIndependentStudy.getContentPane().add(txtpnDsfsdf);
+		formulaDescriptionTextPane.setBounds(578, 182, 571, 57);
+		frmIndependentStudy.getContentPane().add(formulaDescriptionTextPane);
 		try {
 			JLabel imgLabel = new JLabel("New label");
 			imgLabel.setBounds(578, 266, 571, 119);
 			frmIndependentStudy.getContentPane().add(imgLabel);
 
-			Image img = ImageIO.read(new File("./src/view/images/haversin.png"));
+			Image img = ImageIO
+					.read(new File("./src/view/images/haversin.png"));
 			Image resizedImage = img.getScaledInstance(imgLabel.getWidth(),
 					imgLabel.getHeight(), Image.SCALE_FAST);
 
@@ -202,5 +206,9 @@ public class MainRender {
 		this.theCanvas.setMaxLat(maxLat);
 		this.theCanvas.setMinLat(minLat);
 		this.theCanvas.setMinLong(minLong);
+	}
+
+	public static JLabel getDistanceLabel() {
+		return distanceLabel;
 	}
 }
